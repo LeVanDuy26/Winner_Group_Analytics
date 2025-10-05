@@ -1,63 +1,99 @@
-# 📊 Winner Group Analytics Project
+# Winner Group Analytics Project
 
-## 1. Giới thiệu
+## Tổng quan dự án
 
-Dự án **Winner Group Analytics** được xây dựng nhằm phân tích dữ liệu bán hàng từ hệ thống **Pancake POS** của Winner Group (kinh doanh thời trang, bán hàng qua gần 70 fanpage Facebook).
-Hệ thống dữ liệu được thiết kế theo mô hình **Data Warehouse (Bronze → Silver → Gold)** và sử dụng để tạo các **Dashboard phân tích đa chiều** (Power BI / Tableau).
+**Winner Group Analytics** là hệ thống phân tích dữ liệu bán hàng toàn diện cho Winner Group - một doanh nghiệp kinh doanh thời trang với mô hình bán hàng qua mạng xã hội (gần 70 fanpage Facebook). Dự án sử dụng dữ liệu từ **Pancake POS API** để xây dựng hệ thống Data Warehouse theo mô hình **Bronze → Silver → Gold** nhằm hỗ trợ ra quyết định kinh doanh thông qua các dashboard phân tích chuyên sâu.
 
----
+## Mục tiêu chính
 
-## 2. Mục tiêu chính
+### 1. Thu thập và lưu trữ dữ liệu
+- Kết nối và thu thập dữ liệu từ Pancake POS API
+- Lưu trữ dữ liệu raw vào MySQL Database (Bronze Layer)
+- Đảm bảo tính toàn vẹn và đầy đủ của dữ liệu
 
-* Thu thập dữ liệu từ **Pancake API** và lưu trữ vào MySQL.
-* Thiết kế hệ thống **ETL pipeline**: Bronze (raw) → Silver (clean/standardized) → Gold (data mart).
-* Xây dựng **Star Schema** gồm Fact Tables và Dimension Tables.
-* Phát triển các **dashboard phân tích**:
+### 2. Xây dựng ETL Pipeline
+- **Bronze Layer**: Lưu trữ dữ liệu raw từ API
+- **Silver Layer**: Làm sạch, chuẩn hóa và enrich dữ liệu
+- **Gold Layer**: Tạo Data Mart với Star Schema cho phân tích
 
-  1. Executive Dashboard (Tổng quan quản lý)
-  2. Sales Performance Dashboard (Hiệu quả bán hàng)
-  3. Operations Dashboard (Vận hành & Kho hàng)
-  4. Customer Dashboard (Khách hàng)
-  5. Product Dashboard (Sản phẩm)
+### 3. Phân tích và báo cáo
+- Xây dựng các dashboard phân tích đa chiều
+- Phân tích hành vi khách hàng (RFM Analysis)
+- Báo cáo hiệu suất kinh doanh theo thời gian thực
 
----
+## Kiến trúc hệ thống
 
-## 3. Kiến trúc dữ liệu
+### Data Architecture (Bronze → Silver → Gold)
+
+![Data Architecture](img/1.DataArchitecture.png)
+
 ```
 WINNER_GROUP_ANALYTICS/
 │
-├── .venv/                     # Môi trường ảo Python (cài dependencies riêng cho dự án)
+├── 1.Bronze/                     # Tầng Bronze: Dữ liệu raw từ API
+│   ├── 0_TestPancakeAPI.ipynb    # Test API connection và page_size limits
+│   ├── Customers.ipynb           # Extract dữ liệu khách hàng từ API
+│   ├── Orders.ipynb              # Extract dữ liệu đơn hàng từ API
+│   ├── Products.ipynb            # Extract dữ liệu sản phẩm từ API
+│   └── Shop.ipynb                # Extract thông tin shop từ API
 │
-├── 1.Broze/                   # Tầng Bronze: dữ liệu gốc (raw) từ API Pancake POS
-│   ├── 0_TestPancakeAPI.ipynb # Notebook test API, kết nối và tải dữ liệu
-│   ├── Customers.ipynb        # Load dữ liệu khách hàng (Customers) từ API
-│   ├── Orders.ipynb           # Load dữ liệu đơn hàng (Orders)
-│   ├── Products.ipynb         # Load dữ liệu sản phẩm (Products)
-│   └── Shop.ipynb             # Load thông tin shop
+├── 2.Silver/                     # Tầng Silver: Dữ liệu đã làm sạch
+│   ├── Customers.ipynb           # Transform customers_raw → dim_customers
+│   ├── Orders.ipynb              # Transform orders_raw → fact_orders + dim_*
+│   ├── Products.ipynb            # Transform products_raw → dim_products
+│   ├── Shop.ipynb                # Transform shops_raw → dim_shops
+│   ├── Fact&Dim.md               # Thiết kế Fact & Dimension tables
+│   └── README.md                 # Hướng dẫn xử lý dữ liệu Silver
 │
-├── 2.Silver/                  # Tầng Silver: dữ liệu đã làm sạch & chuẩn hóa
-│   ├── Customers.ipynb        # Làm sạch dữ liệu khách hàng
-│   ├── Orders.ipynb           # Chuẩn hóa bảng Orders
-│   ├── Products.ipynb         # Chuẩn hóa bảng Products
-│   ├── Shop.ipynb             # Chuẩn hóa thông tin shop
-│   ├── Fact&Dim.md            # Thiết kế Fact Table & Dimension sơ bộ
-│   └── README.md              # Giải thích cách xử lý dữ liệu ở tầng Silver
+├── 3.Gold/                       # Tầng Gold: Data Mart (Star Schema)
+│   ├── gold_dim_customers.ipynb  # Dimension Customers với RFM Analysis
+│   ├── gold_dim_date.ipynb       # Dimension Date (Calendar table)
+│   ├── gold_dim_pages.ipynb      # Dimension Pages (Facebook fanpages)
+│   ├── gold_dim_product.ipynb    # Dimension Products với categories
+│   ├── gold_dim_shop.ipynb       # Dimension Shops
+│   ├── gold_fact_order.ipynb     # Fact Orders (tổng quan đơn hàng)
+│   └── gold_fact_orderItems.ipynb # Fact Order Items (chi tiết sản phẩm)
 │
-├── 3.Gold/                    # Tầng Gold: Data Mart (Star Schema)
-│   ├── gold_dim_customers.ipynb   # Dimension Customers
-│   ├── gold_dim_date.ipynb        # Dimension Date (calendar)
-│   ├── gold_dim_pages.ipynb       # Dimension Pages (fanpage bán hàng)
-│   ├── gold_dim_product.ipynb     # Dimension Product
-│   ├── gold_dim_shop.ipynb        # Dimension Shop
-│   ├── gold_fact_order.ipynb      # Fact Orders (tổng quan đơn hàng)
-│   └── gold_fact_orderItems.ipynb # Fact Order Items (chi tiết từng sản phẩm trong đơn hàng)
+├── 4.Dashboards/                 # Dashboard và Visualization
+│   └── EDA_Winner_Group_Discovery.ipynb # Exploratory Data Analysis
 │
-├── 4.Dashboards/              # Dashboard: kết nối trực tiếp từ Gold
-│   └── test.ipynb             # Notebook thử nghiệm visualization/truy vấn dữ liệu
+├── 5.Reports/                    # Báo cáo và tài liệu
+│   ├── Data_Dictionary.xlsx      # Data Dictionary
+│   └── Roadmap.xlsx              # Project Roadmap
 │
-├── 5.Reports/                 # Báo cáo & tài liệu (Markdown, PDF, hình minh họa)
+├── 6.Docs/                       # Tài liệu kỹ thuật
+│   └── DARoadMap.md              # Data Analyst Roadmap chi tiết
 │
-├── img/                       # Lưu hình ảnh, sơ đồ (ERD, kiến trúc, star schema…)
+├── img/                          # Hình ảnh và sơ đồ
+│   ├── 1.DataArchitecture.png    # Sơ đồ kiến trúc dữ liệu
+│   ├── 2.DataLineage.png         # Sơ đồ data lineage
+│   ├── 3.Dataflow.png            # Sơ đồ luồng dữ liệu
+│   └── 4.StarSchema.png          # Sơ đồ Star Schema
 │
-└── SQL/                       # Thư mục chứa file SQL scripts (DDL, phân quyền, role, data dictionary)
+├── SQL/                          # SQL Scripts
+│   ├── RBAC.sql                  # Role-Based Access Control
+│   └── Guide_RBAC.sql            # Hướng dẫn RBAC
+│
+├── requirements.txt              # Python dependencies
+├── README.md                     # Tài liệu dự án (file này)
+└── LICENSE                       # Giấy phép sử dụng
 ```
+
+## Công nghệ sử dụng
+
+### Backend & Database
+- **Python 3.13+**: Ngôn ngữ lập trình chính
+- **MySQL**: Database chính để lưu trữ dữ liệu
+- **SQLAlchemy**: ORM để tương tác với database
+- **PyMySQL**: MySQL driver cho Python
+
+### Data Processing
+- **Pandas**: Xử lý và phân tích dữ liệu
+- **NumPy**: Tính toán số học
+- **Python-dotenv**: Quản lý biến môi trường
+
+### Visualization & Analysis
+- **Matplotlib**: Vẽ biểu đồ cơ bản
+- **Seaborn**: Vẽ biểu đồ thống kê
+- **Plotly**: Vẽ biểu đồ tương tác
+- **Jupyter Notebook**: Môi trường phát triển
