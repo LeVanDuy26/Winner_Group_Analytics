@@ -12,10 +12,12 @@
 4. **Cải thiện hiệu quả vận hành** - Improving operational efficiency
 
 ### **Phạm vi phân tích (Analysis Scope)**
-- **Thời gian**: Dữ liệu từ tháng 1/2024 đến hiện tại
-- **Đối tượng**: Khách hàng, sản phẩm, đơn hàng, kênh bán
+- **Thời gian**: Dữ liệu từ Gold layer (đã clean và chuẩn hóa)
+- **Đối tượng**: 40,236 đơn hàng, 46,611 items, 37 sản phẩm, 1 cửa hàng Winner Group
+- **Kiến trúc**: Star Schema với 2 fact tables và 7 dimension tables
 - **Phương pháp**: E-commerce analytics best practices (Thực hành tốt nhất phân tích thương mại điện tử)
 - **Công cụ**: Python, SQL, Statistical Analysis (Phân tích thống kê)
+- **Dữ liệu sẵn sàng**: Gold layer đã clean, có data dictionary hoàn chỉnh
 
 ---
 
@@ -37,13 +39,18 @@
 - Outlier identification (Xác định giá trị ngoại lai)
 
 # 2. Dataset Structure (Cấu trúc Dataset)
-- Table relationships (Mối quan hệ bảng)
+- Star Schema relationships (Mối quan hệ Star Schema)
+- Fact tables: fact_orders (40,236), fact_order_items (46,611)
+- Dimension tables: dim_customers, dim_products (37), dim_shop (1), dim_date, dim_order_pages, dim_order_warehouses, dim_order_shipping, dim_order_payments
 - Data volume analysis (Phân tích khối lượng dữ liệu)
 - Time range coverage (Phạm vi thời gian)
-- Geographic coverage (Phạm vi địa lý)
+- Geographic coverage (Phạm vi địa lý - Hà Nội)
 
 # 3. Business Metrics Overview (Tổng quan chỉ số kinh doanh)
-- Total orders, customers, products (Tổng đơn hàng, khách hàng, sản phẩm)
+- Total orders: 40,236 đơn hàng
+- Total items: 46,611 items
+- Total products: 37 sản phẩm
+- Total customers: Từ dim_customers
 - Revenue trends (Xu hướng doanh thu)
 - Growth rates (Tỷ lệ tăng trưởng)
 ```
@@ -289,66 +296,66 @@ cannibalization_analysis = analyze_product_substitution_effects()
 
 ---
 
-### **1.5 EDA_Sales_Channel.ipynb - Phân tích Kênh Bán**
+### **1.5 EDA_Operational_Analytics.ipynb - Phân tích Vận hành**
 
 #### **Mục tiêu (Objectives)**
-- Phân tích hiệu suất các kênh bán hàng
-- So sánh ROI giữa các kênh
-- Tối ưu hóa channel mix (Hỗn hợp kênh)
-- Phân tích customer acquisition cost (Chi phí thu hút khách hàng)
+- Phân tích hiệu suất warehouse và shipping
+- Phân tích payment methods và success rate
+- Phân tích order fulfillment process
+- Phân tích customer service metrics
 
 #### **Nội dung phân tích (Analysis Content)**
 
-##### **A. Channel Performance Metrics (Chỉ số hiệu suất kênh)**
+##### **A. Warehouse Performance Metrics (Chỉ số hiệu suất kho)**
 ```python
-# 1. Channel Revenue (Doanh thu theo kênh)
-channel_revenue = SUM(order_value) GROUP BY channel
+# 1. Warehouse Utilization (Sử dụng kho)
+warehouse_utilization = orders_per_warehouse / warehouse_capacity
 
-# 2. Channel Conversion Rate (Tỷ lệ chuyển đổi)
-conversion_rate = completed_orders / total_visitors * 100
+# 2. Shipping Efficiency (Hiệu quả vận chuyển)
+shipping_efficiency = on_time_deliveries / total_deliveries * 100
 
-# 3. Channel AOV (Giá trị đơn hàng trung bình theo kênh)
-channel_aov = AVG(order_value) GROUP BY channel
+# 3. Geographic Distribution (Phân bố địa lý)
+geo_distribution = orders_by_warehouse_location()
 
-# 4. Channel Customer Acquisition Cost (Chi phí thu hút khách hàng)
-cac = total_marketing_spend / new_customers_acquired
-
-# 5. Channel Customer Lifetime Value (Giá trị trọn đời khách hàng theo kênh)
-clv = SUM(customer_revenue) / customer_count GROUP BY channel
+# 4. Inventory Turnover by Warehouse (Vòng quay kho theo warehouse)
+inventory_turnover = total_orders / warehouse_inventory
 ```
 
-##### **B. Channel Attribution Analysis (Phân tích quy kết kênh)**
+##### **B. Payment Analysis (Phân tích thanh toán)**
 ```python
-# 1. First-touch Attribution (Quy kết chạm đầu tiên)
-first_touch_revenue = revenue WHERE channel = first_contact_channel
+# 1. Payment Methods Distribution (Phân bố phương thức thanh toán)
+payment_methods = payment_type_distribution()
 
-# 2. Last-touch Attribution (Quy kết chạm cuối cùng)
-last_touch_revenue = revenue WHERE channel = last_contact_channel
+# 2. Payment Success Rate (Tỷ lệ thanh toán thành công)
+payment_success_rate = successful_payments / total_payments * 100
 
-# 3. Multi-touch Attribution (Quy kết đa chạm)
-multi_touch_revenue = distribute_revenue_across_touchpoints()
+# 3. Payment Timing Analysis (Phân tích thời gian thanh toán)
+payment_timing = time_to_payment_analysis()
+
+# 4. Payment Issues Analysis (Phân tích vấn đề thanh toán)
+payment_issues = failed_payment_reasons()
 ```
 
-##### **C. Channel Efficiency Analysis (Phân tích hiệu quả kênh)**
+##### **C. Order Fulfillment Analysis (Phân tích thực hiện đơn hàng)**
 ```python
-# 1. Cost per Acquisition (CPA) (Chi phí cho mỗi lần thu hút)
-cpa = marketing_cost / acquired_customers
+# 1. Order Status Distribution (Phân bố trạng thái đơn hàng)
+order_status_dist = order_status_breakdown()
 
-# 2. Return on Ad Spend (ROAS) (Lợi nhuận trên chi phí quảng cáo)
-roas = revenue_generated / ad_spend
+# 2. Fulfillment Time Analysis (Phân tích thời gian thực hiện)
+fulfillment_time = order_to_delivery_time()
 
-# 3. Channel ROI (Lợi nhuận đầu tư kênh)
-channel_roi = (revenue - costs) / costs * 100
+# 3. Return Rate Analysis (Phân tích tỷ lệ trả hàng)
+return_rate = returned_orders / total_orders * 100
 
-# 4. Channel Profitability (Khả năng sinh lời kênh)
-channel_profit = revenue - (costs + fulfillment_costs + returns)
+# 4. Customer Service Metrics (Chỉ số dịch vụ khách hàng)
+cs_metrics = customer_service_performance()
 ```
 
 #### **Key Insights to Extract (Insights chính cần rút ra)**
-- Most profitable sales channels (Kênh bán hàng sinh lời nhất)
-- Optimal budget allocation across channels (Phân bổ ngân sách tối ưu giữa các kênh)
-- Channel-specific customer behavior patterns (Mẫu hành vi khách hàng theo kênh)
-- Cross-channel customer journey insights (Insights hành trình khách hàng liên kênh)
+- Warehouse efficiency optimization opportunities (Cơ hội tối ưu hiệu quả kho)
+- Payment method preferences and success rates (Sở thích và tỷ lệ thành công phương thức thanh toán)
+- Order fulfillment bottlenecks (Điểm nghẽn trong thực hiện đơn hàng)
+- Customer service improvement areas (Lĩnh vực cải thiện dịch vụ khách hàng)
 
 ---
 
@@ -469,6 +476,48 @@ differentiation = identify_differentiation_opportunities()
 # 3. Pricing Strategy (Chiến lược giá)
 pricing_strategy = recommend_pricing_changes()
 ```
+
+---
+
+## **BỔ SUNG DỰA TRÊN DỮ LIỆU GOLD LAYER**
+
+### **Dữ liệu thực tế có sẵn:**
+- **fact_orders**: 40,236 đơn hàng với đầy đủ thông tin
+- **fact_order_items**: 46,611 items chi tiết
+- **dim_customers**: Dữ liệu khách hàng đã clean (giới tính: Nam/Nữ/Unknown)
+- **dim_products**: 37 sản phẩm với category_name
+- **dim_shop**: 1 cửa hàng Winner Group
+- **dim_date**: Bảng thời gian đầy đủ cho time-series analysis
+- **dim_order_pages**: Thông tin trang đặt hàng (đã xóa page_username)
+- **dim_order_warehouses**: Kho hàng ở Hà Nội (tên và địa chỉ ngẫu nhiên)
+- **dim_order_shipping**: Thông tin vận chuyển
+- **dim_order_payments**: Thông tin thanh toán
+
+### **Điều chỉnh phân tích dựa trên dữ liệu thực tế:**
+
+#### **1. Customer Analysis - Tập trung vào:**
+- Phân tích giới tính: Nam/Nữ/Unknown (đã clean)
+- Phân tích địa lý: Tập trung Hà Nội (warehouse locations)
+- RFM Analysis với dữ liệu thực tế
+- Customer segmentation dựa trên purchased_amount
+
+#### **2. Product Analysis - Tập trung vào:**
+- 37 sản phẩm với category_name
+- Phân tích best sellers trong 46,611 items
+- Product performance với 40,236 orders
+- Category analysis với "Le Van Duy" category
+
+#### **3. Order Analysis - Tập trung vào:**
+- 40,236 orders với order_status, payment_status, shipping_status
+- Order value analysis với total_amount, discount_amount, shipping_fee
+- Time-series analysis với dim_date
+- Order fulfillment với warehouse và shipping data
+
+#### **4. Operational Analysis - Tập trung vào:**
+- Warehouse performance (Hà Nội locations)
+- Payment methods và success rates
+- Shipping efficiency
+- Order processing time
 
 ---
 
@@ -604,19 +653,19 @@ Conversion Rate = (Number of Conversions / Number of Visitors) × 100
 ## **TIMELINE (Thời gian thực hiện)**
 
 ### **Week 1-2: Data Understanding (Hiểu dữ liệu)**
-- EDA_Overview.ipynb
-- EDA_Business_Metrics.ipynb
+- EDA_Overview.ipynb - Tổng quan Gold layer
+- EDA_Business_Metrics.ipynb - KPI cơ bản với 40,236 orders
 
 ### **Week 3-4: Deep Dive Analysis (Phân tích sâu)**
-- EDA_Customer_Deep_Dive.ipynb
-- EDA_Product_Deep_Dive.ipynb
+- EDA_Customer_Deep_Dive.ipynb - RFM, segmentation với dim_customers
+- EDA_Product_Deep_Dive.ipynb - 37 products, 46,611 items analysis
 
-### **Week 5-6: Channel & Predictive Analysis (Phân tích kênh và dự đoán)**
-- EDA_Sales_Channel.ipynb
-- EDA_Predictive_Insights.ipynb
+### **Week 5-6: Operational & Predictive Analysis (Phân tích vận hành và dự đoán)**
+- EDA_Operational_Analytics.ipynb - Warehouse, payment, shipping analysis
+- EDA_Predictive_Insights.ipynb - Time-series với dim_date
 
 ### **Week 7-8: Business Intelligence & Reporting (Thông tin kinh doanh và báo cáo)**
-- EDA_Business_Intelligence.ipynb
+- EDA_Business_Intelligence.ipynb - Tổng hợp insights
 - Insights documentation (Tài liệu insights)
 - Executive presentation (Thuyết trình điều hành)
 
