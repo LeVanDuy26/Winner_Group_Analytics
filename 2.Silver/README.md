@@ -1,79 +1,106 @@
-## 🛠 Workflow chuẩn (Bronze → Silver)
+## 🏗️ **TỔNG HỢP TẦNG SILVER**
 
-### **1. Extract dữ liệu từ Bronze**
+### **📊 Các bảng đã tạo trong Silver:**
 
-* Đọc từ bảng `*_raw` (Bronze), trong đó thường có:
+#### **🎯 BẢNG CHIỀU - DIMENSION TABLES (7 bảng):**
+1. **`dim_customers`** - Thông tin khách hàng (25 trường)
+2. **`dim_products`** - Thông tin sản phẩm (23 trường) 
+3. **`dim_shops`** - Thông tin shop (4 trường)
+4. **`dim_order_pages`** - Thông tin page bán hàng (4 trường)
+5. **`dim_order_warehouses`** - Thông tin kho hàng (6 trường)
+6. **`dim_order_shipping`** - Thông tin giao hàng (6 trường)
+7. **`dim_order_payments`** - Thông tin thanh toán (6 trường)
 
-  * `id` (internal id trong Bronze).
-  * `raw_json` (payload gốc từ API Pancake).
-  * `_ingested_at` (timestamp ETL từ API về Bronze).
-* Mục tiêu: đảm bảo **dữ liệu thô gốc** luôn còn nguyên, không chỉnh sửa.
-
----
-
-### **2. Parse & Flatten JSON**
-
-* Parse `raw_json` thành dict.
-* Flatten nested fields (ví dụ `shop_customer_addresses`, `order_items`, `payments`).
-* Chọn các **field quan trọng** theo business requirement (không lấy hết, chỉ những gì cần thiết).
-* Mapping tên cột → chuẩn hoá (snake_case).
+#### **📈 BẢNG SỰ KIỆN - FACT TABLES (2 bảng):**
+1. **`fact_orders`** - Đơn hàng chính (25 trường)
+2. **`fact_order_items`** - Chi tiết sản phẩm trong đơn (10 trường)
 
 ---
 
-### **3. Chuẩn hoá dữ liệu (Cleaning & Standardizing)**
+## ⭐ **THIẾT KẾ STAR SCHEMA**
 
-* **Datetime**: convert sang `datetime64` chuẩn (`inserted_at`, `updated_at`, …).
-* **Numeric**: ép kiểu số (`order_count`, `purchased_amount`).
-* **Boolean**: convert `true/false` sang `TINYINT(1)` hoặc `BOOLEAN`.
-* **List/Array**: flatten thành string join hoặc tạo bảng phụ (nếu nhiều giá trị).
-* **Text**: trim khoảng trắng, lowercase cho field như `gender`, `status`.
+### **🎯 Sơ đồ Star Schema chính:**
 
----
+```
+                    ⭐ FACT_ORDERS ⭐
+                      (Trung tâm)
+                         │
+        ┌────────────────┼────────────────┐
+        │                │                │
+    dim_customers    dim_order_pages    dim_order_warehouses
+    (khách hàng)      (trang bán)        (kho hàng)
+        │                │                │
+        │                │                │
+    dim_order_shipping    dim_order_payments    dim_shops
+    (thông tin giao)      (thông tin thanh)      (cửa hàng)
+        │                │                │
+        │                │                │
+    ────┼────────────────┼────────────────┼────
+        │                │                │
+    fact_order_items ──── dim_products ───────┘
+    (chi tiết đơn)        (sản phẩm)
+```
 
-### **4. Data Quality Check**
+### **📋 Chi tiết các mối quan hệ:**
 
-* **Null check**: đếm % null mỗi cột → quyết định drop/giữ.
-* **Duplicate check**: check duplicate theo primary key tự nhiên (ví dụ `customer_id`, `order_id`).
-* **Referential integrity**: với bảng fact (Orders), check xem khóa ngoại (customer_id, product_id) có tồn tại trong dimension không.
+#### **🔗 FACT_ORDERS (Trung tâm):**
+- **Khóa chính**: `order_id`
+- **Khóa ngoại**:
+  - `customer_id` → `dim_customers` (khách hàng)
+  - `page_id` → `dim_order_pages` (trang bán)
+  - `warehouse_id` → `dim_order_warehouses` (kho hàng)
+  - `shipping_id` → `dim_order_shipping` (thông tin giao)
+  - `payment_id` → `dim_order_payments` (thông tin thanh)
+  - `shop_id` → `dim_shops` (cửa hàng)
 
----
-
-### **5. Enrich / Standardize**
-
-* Thêm cột lineage:
-
-  * `bronze_id` (id của record ở Bronze, để trace ngược).
-  * `_ingested_at` (thời điểm ETL).
-* Mapping/chuẩn hoá value:
-
-  * Gender: `male/female/nam/nữ` → `M/F`.
-  * Order status: map về 1 set chuẩn (`pending`, `completed`, `canceled`).
-  * Province ID → join với bảng provinces để ra tên tỉnh.
-
----
-
-### **6. Load vào Silver**
-
-* Load dữ liệu đã làm sạch vào bảng `*_clean` ở schema Silver.
-* Dùng `to_sql` hoặc batch insert.
-* Nếu bảng lớn (Orders, Order_Items) → incremental load (chỉ load record mới/updated).
-
----
-
-### **7. Sinh Data Dictionary tự động**
-
-* Tạo bảng metadata mô tả:
-
-  * column name
-  * data type
-  * null %
-  * unique count
-  * sample value
-* Lưu lại cho Data Governance & dễ đối chiếu với business.
+#### **🔗 FACT_ORDER_ITEMS (Bảng sự kiện phụ):**
+- **Khóa chính**: `order_item_id`
+- **Khóa ngoại**:
+  - `order_id` → `fact_orders` (đơn hàng)
+  - `product_id` → `dim_products` (sản phẩm)
 
 ---
 
-## 📌 Tóm lại
+## 📊 **TỔNG QUAN DỮ LIỆU**
 
-Workflow chung Silver gồm:
-**(Extract từ Bronze → Parse JSON → Clean & Standardize → DQ Check → Enrich → Load Silver → Generate Data Dictionary)**
+| Bảng | Loại | Số bản ghi | Trường khóa |
+|-------|------|------------|-------------|
+| `fact_orders` | Fact | 40,236 | order_id, customer_id, page_id, warehouse_id |
+| `fact_order_items` | Fact | ~40,000+ | order_item_id, order_id, product_id |
+| `dim_customers` | Dim | ~36,000 | customer_id |
+| `dim_products` | Dim | 37 | product_id |
+| `dim_shops` | Dim | 1 | shop_id |
+| `dim_order_pages` | Dim | ~40,236 | page_id |
+| `dim_order_warehouses` | Dim | ~40,236 | warehouse_id |
+| `dim_order_shipping` | Dim | ~40,236 | shipping_id |
+| `dim_order_payments` | Dim | ~40,236 | payment_id |
+
+---
+
+## 🎯 **KHẢ NĂNG PHÂN TÍCH NGHIỆP VỤ**
+
+### **📈 Phân tích KPI:**
+- **Phân tích doanh thu**: Tổng doanh số, doanh thu theo thời kỳ, khách hàng, sản phẩm
+- **Phân tích đơn hàng**: Số lượng đơn, giá trị đơn trung bình, tần suất mua
+- **Phân tích khách hàng**: Phân khúc khách hàng, phân tích RFM
+- **Hiệu suất sản phẩm**: Sản phẩm bán chạy/kém, phân tích danh mục
+- **Phân tích địa lý**: Bán hàng theo khu vực giao, hiệu suất kho
+
+### **🔍 Phân tích đa chiều:**
+- **Theo khách hàng**: Nhân khẩu học, mẫu hành vi
+- **Theo sản phẩm**: Danh mục, khoảng giá, hiệu suất
+- **Theo thời gian**: Xu hướng hàng ngày, hàng tháng, theo mùa
+- **Theo địa lý**: Hiệu suất khu vực giao, hiệu quả kho
+- **Theo kênh**: Hiệu suất trang, phương thức thanh toán
+
+---
+
+## 🚀 **BƯỚC TIẾP THEO - TẦNG GOLD**
+
+Bây giờ chúng ta có thể:
+1. **Chuyển đổi Silver → Gold** với logic nghiệp vụ
+2. **Tạo bảng tổng hợp** cho các KPI cụ thể
+3. **Xây dựng dashboard** từ tầng Gold
+4. **Triển khai data mart** cho các đơn vị kinh doanh khác nhau
+
+**Tầng Silver đã hoàn thành** với Star Schema chuẩn, sẵn sàng cho việc chuyển đổi Gold! 🎉
