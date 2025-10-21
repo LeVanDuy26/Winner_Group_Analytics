@@ -1,5 +1,4 @@
-# Lộ trình EDA (Exploratory Data Analysis) - Winner Group Analytics
-## Data Analytics Expert Plan (Kế hoạch Chuyên gia Phân tích Dữ liệu)
+# Data Analytics Expert Plan
 
 ---
 
@@ -29,11 +28,13 @@
 ### **1.1 EDA_Overview.ipynb - Tổng quan Dataset**
 
 #### **Mục tiêu (Objectives)**
+
 - Đánh giá chất lượng dữ liệu tổng thể
 - Hiểu cấu trúc và quy mô dataset qua 4 năm
 - Xác định các vấn đề dữ liệu cần xử lý
 
 #### **Key Questions to Answer (Câu hỏi chính cần trả lời)**
+
 - Dữ liệu có đầy đủ và chính xác không?
 - Có gaps nào trong timeline 4 năm không?
 - Dữ liệu có đủ để phân tích toàn diện không?
@@ -71,11 +72,13 @@
 ### **1.2 EDA_Business_Metrics.ipynb - Chỉ số Kinh doanh Cơ bản**
 
 #### **Mục tiêu (Objectives)**
+
 - Tính toán các KPI cơ bản của e-commerce qua 4 năm
 - Phân tích xu hướng doanh thu và đơn hàng theo thời gian
 - Đánh giá hiệu suất kinh doanh tổng thể
 
 #### **Key Questions to Answer (Câu hỏi chính cần trả lời)**
+
 - Doanh thu có tăng trưởng ổn định qua 4 năm không?
 - Tháng nào/năm nào bán chạy nhất? Tại sao?
 - Giá trị đơn hàng trung bình có thay đổi theo thời gian không?
@@ -156,12 +159,14 @@ geo_dist = COUNT(*) GROUP BY address_province_id
 ### **1.3 EDA_Customer_Deep_Dive.ipynb - Phân tích Khách hàng Sâu**
 
 #### **Mục tiêu (Objectives)**
+
 - Phân tích hành vi mua sắm của khách hàng qua 4 năm
 - Xây dựng customer segmentation dựa trên dữ liệu thực tế
 - Thực hiện RFM Analysis với dữ liệu lịch sử
 - Phát hiện customer lifetime value patterns
 
 #### **Key Questions to Answer (Câu hỏi chính cần trả lời)**
+
 - Khách hàng nào có giá trị cao nhất qua 4 năm?
 - Tại sao một số khách hàng rời bỏ? Khi nào?
 - Khách hàng mới có xu hướng gì? Có trở thành khách hàng trung thành không?
@@ -259,12 +264,14 @@ clv_historical = total_customer_revenue / customer_age_in_days * 365
 ### **1.4 EDA_Product_Deep_Dive.ipynb - Phân tích Sản phẩm Sâu**
 
 #### **Mục tiêu (Objectives)**
+
 - Phân tích hiệu suất 37 sản phẩm qua 4 năm
 - Xác định best sellers và slow movers
 - Phân tích inventory turnover
 - Tối ưu hóa product mix
 
 #### **Key Questions to Answer (Câu hỏi chính cần trả lời)**
+
 - Sản phẩm nào bán chạy nhất qua 4 năm? Tại sao?
 - Category nào (nhân viên phụ trách) có hiệu suất tốt nhất?
 - Sản phẩm nào có xu hướng tăng/giảm theo thời gian?
@@ -331,12 +338,14 @@ cannibalization_analysis = analyze_product_substitution_effects()
 ### **1.5 EDA_Operational_Analytics.ipynb - Phân tích Vận hành**
 
 #### **Mục tiêu (Objectives)**
+
 - Phân tích hiệu suất warehouse và shipping
 - Phân tích payment methods và success rate
 - Phân tích order fulfillment process
 - Phân tích customer service metrics
 
 #### **Key Questions to Answer (Câu hỏi chính cần trả lời)**
+
 - Kho nào hoạt động hiệu quả nhất? Tại sao?
 - Tại sao 99% thanh toán bằng COD? Có vấn đề gì không?
 - Thời gian xử lý đơn hàng trung bình là bao lâu?
@@ -401,12 +410,14 @@ processing_efficiency = analyze_order_processing_times()
 ### **1.6 EDA_Time_Series_Analysis.ipynb - Phân tích Chuỗi Thời gian**
 
 #### **Mục tiêu (Objectives)**
+
 - Phân tích xu hướng dài hạn qua 4 năm
 - Phát hiện seasonal patterns
 - Dự đoán xu hướng tương lai
 - Phân tích cyclical patterns
 
 #### **Key Questions to Answer (Câu hỏi chính cần trả lời)**
+
 - Doanh thu có xu hướng tăng trưởng ổn định không?
 - Có mùa vụ nào đặc biệt trong năm không?
 - Có chu kỳ nào lặp lại hàng năm không?
@@ -473,12 +484,14 @@ customer_forecast = predict_customer_growth()
 ### **1.7 EDA_Business_Intelligence.ipynb - Business Intelligence**
 
 #### **Mục tiêu (Objectives)**
+
 - Tổng hợp insights từ tất cả phân tích
 - Tạo actionable recommendations
 - Phân tích competitive advantage
 - Định hướng chiến lược kinh doanh
 
 #### **Key Questions to Answer (Câu hỏi chính cần trả lời)**
+
 - Bức tranh toàn cảnh doanh nghiệp như thế nào?
 - Điểm mạnh và điểm yếu chính là gì?
 - Cơ hội tăng trưởng nào có thể nắm bắt?
@@ -560,16 +573,19 @@ operational_insights = {
 ### **1. Customer Metrics (Chỉ số Khách hàng)**
 
 #### **Customer Acquisition Cost (CAC) (Chi phí thu hút khách hàng)**
+
 ```
 CAC = Total Marketing Spend / Number of New Customers Acquired
 ```
 
 #### **Customer Lifetime Value (CLV) (Giá trị trọn đời khách hàng)**
+
 ```
 CLV = (Average Order Value × Purchase Frequency × Customer Lifespan) - CAC
 ```
 
 #### **Customer Retention Rate (Tỷ lệ giữ chân khách hàng)**
+
 ```
 Retention Rate = (Customers at End of Period - New Customers) / Customers at Start of Period × 100
 ```
@@ -577,11 +593,13 @@ Retention Rate = (Customers at End of Period - New Customers) / Customers at Sta
 ### **2. Revenue Metrics (Chỉ số Doanh thu)**
 
 #### **Revenue Growth Rate (Tỷ lệ tăng trưởng doanh thu)**
+
 ```
 Growth Rate = (Current Period Revenue - Previous Period Revenue) / Previous Period Revenue × 100
 ```
 
 #### **Average Order Value (AOV) (Giá trị đơn hàng trung bình)**
+
 ```
 AOV = Total Revenue / Total Orders
 ```
@@ -589,46 +607,27 @@ AOV = Total Revenue / Total Orders
 ### **3. Product Metrics (Chỉ số Sản phẩm)**
 
 #### **Product Velocity (Tốc độ sản phẩm)**
+
 ```
 Product Velocity = Units Sold / Days Active
 ```
 
 #### **Sell-through Rate (Tỷ lệ bán hết)**
+
 ```
 Sell-through Rate = Units Sold / (Units Sold + Units Remaining) × 100
 ```
 
----
-
-## **TIMELINE (Thời gian thực hiện)**
-
-### **Week 1-2: Data Understanding (Hiểu dữ liệu)**
-- EDA_Overview.ipynb - Tổng quan Gold layer
-- EDA_Business_Metrics.ipynb - KPI cơ bản với 40,236 orders
-
-### **Week 3-4: Deep Dive Analysis (Phân tích sâu)**
-- EDA_Customer_Deep_Dive.ipynb - RFM, segmentation với dim_customers
-- EDA_Product_Deep_Dive.ipynb - 37 products, 46,611 items analysis
-
-### **Week 5-6: Operational & Time Series Analysis (Phân tích vận hành và chuỗi thời gian)**
-- EDA_Operational_Analytics.ipynb - Warehouse, payment, shipping analysis
-- EDA_Time_Series_Analysis.ipynb - Time-series với dim_date
-
-### **Week 7-8: Business Intelligence & Reporting (Thông tin kinh doanh và báo cáo)**
-- EDA_Business_Intelligence.ipynb - Tổng hợp insights
-- Insights documentation (Tài liệu insights)
-- Executive presentation (Thuyết trình điều hành)
-
----
-
 ## **SUCCESS METRICS (Chỉ số Thành công)**
 
 ### **Technical Success (Thành công Kỹ thuật)**
+
 - Data quality score > 95%
 - Analysis reproducibility = 100%
 - Code documentation completeness = 100%
 
 ### **Business Success (Thành công Kinh doanh)**
+
 - Actionable insights generated > 20
 - Complete business picture understanding
 - 4-year trend analysis completed
@@ -641,12 +640,14 @@ Sell-through Rate = Units Sold / (Units Sold + Units Remaining) × 100
 ### **2.1 Dự báo Doanh thu và Nhu cầu (Sales & Demand Forecasting)**
 
 #### **Mục tiêu (Objectives)**
+
 - Dự báo doanh thu 6-12 tháng tới dựa trên dữ liệu 4 năm
 - Dự báo nhu cầu cho 37 sản phẩm
 - Phân tích xu hướng theo mùa và chu kỳ
 - Tối ưu hóa kế hoạch kinh doanh
 
 #### **Câu hỏi chính cần trả lời (Key Questions to Answer)**
+
 - Doanh thu sẽ tăng trưởng như thế nào trong 6 tháng tới?
 - Sản phẩm nào sẽ có nhu cầu cao nhất?
 - Có mùa vụ nào cần chuẩn bị trước không?
@@ -692,11 +693,11 @@ product_demand_forecast = {}
 for product_id in df_products['product_id']:
     product_sales = df_order_items[df_order_items['product_id'] == product_id]
     monthly_demand = product_sales.groupby(['year', 'month'])['quantity'].sum()
-    
+  
     # ARIMA cho từng sản phẩm
     product_model = ARIMA(monthly_demand, order=(1,1,1))
     product_forecast = product_model.fit().forecast(steps=6)
-    
+  
     product_demand_forecast[product_id] = product_forecast
 
 # 2. Dự báo theo Category (Nhân viên phụ trách)
@@ -728,12 +729,14 @@ cyclical_patterns = identify_cyclical_business_patterns()
 ### **2.2 Machine Learning và Phân đoạn Khách hàng (Customer Segmentation ML)**
 
 #### **Mục tiêu (Objectives)**
+
 - Xây dựng mô hình phân đoạn khách hàng tự động
 - Dự đoán khách hàng có nguy cơ rời bỏ
 - Tối ưu hóa chiến lược marketing cá nhân hóa
 - Phân tích hành vi mua sắm phức tạp
 
 #### **Câu hỏi chính cần trả lời (Key Questions to Answer)**
+
 - Làm sao để nhận diện khách hàng VIP tự động?
 - Khách hàng nào có nguy cơ rời bỏ trong 3 tháng tới?
 - Phân khúc nào nên được ưu tiên marketing?
@@ -826,12 +829,14 @@ clv_segments = segment_customers_by_clv()
 ### **2.3 Hệ thống Gợi ý Sản phẩm (Product Recommendation System)**
 
 #### **Mục tiêu (Objectives)**
+
 - Xây dựng hệ thống gợi ý sản phẩm thông minh
 - Tăng cross-selling và up-selling
 - Cá nhân hóa trải nghiệm mua sắm
 - Tối ưu hóa product mix
 
 #### **Câu hỏi chính cần trả lời (Key Questions to Answer)**
+
 - Sản phẩm nào nên gợi ý cho khách hàng này?
 - Làm sao để tăng giá trị đơn hàng trung bình?
 - Có sản phẩm nào có thể cross-sell không?
@@ -905,12 +910,14 @@ hybrid_recommendations = combine_collaborative_and_content_based()
 ### **3.1 Dashboard và Báo cáo Tự động (Automated Dashboards & Reports)**
 
 #### **Mục tiêu (Objectives)**
+
 - Tạo dashboard thời gian thực cho lãnh đạo
 - Tự động hóa báo cáo hàng ngày/tuần/tháng
 - Giám sát KPI và cảnh báo sớm
 - Cung cấp insights tức thời
 
 #### **Câu hỏi chính cần trả lời (Key Questions to Answer)**
+
 - Làm sao để theo dõi hiệu suất kinh doanh real-time?
 - KPI nào cần được giám sát liên tục?
 - Làm sao để tự động phát hiện anomalies?
@@ -1007,12 +1014,14 @@ monthly_reports = generate_monthly_reports()
 ### **3.2 Phân tích Cạnh tranh và Thị trường (Competitive & Market Analysis)**
 
 #### **Mục tiêu (Objectives)**
+
 - Phân tích vị thế cạnh tranh của Winner Group
 - Xác định cơ hội thị trường mới
 - Phân tích pricing strategy
 - Đánh giá market share
 
 #### **Câu hỏi chính cần trả lời (Key Questions to Answer)**
+
 - Winner Group có vị thế cạnh tranh như thế nào?
 - Cơ hội thị trường nào chưa được khai thác?
 - Pricing strategy có hiệu quả không?
@@ -1078,12 +1087,14 @@ dynamic_pricing = identify_dynamic_pricing_opportunities()
 ### **4.1 Tối ưu hóa Pipeline Dữ liệu (Data Pipeline Optimization)**
 
 #### **Mục tiêu (Objectives)**
+
 - Tối ưu hóa quy trình ETL từ Silver sang Gold
 - Tự động hóa data quality monitoring
 - Xây dựng real-time data processing
 - Cải thiện performance và reliability
 
 #### **Câu hỏi chính cần trả lời (Key Questions to Answer)**
+
 - Làm sao để tăng tốc độ xử lý dữ liệu?
 - Có thể tự động hóa data quality checks không?
 - Làm sao để xử lý dữ liệu real-time?
@@ -1147,12 +1158,14 @@ data_governance = implement_data_governance()
 ### **4.2 Infrastructure và Cloud Migration (Hạ tầng và Chuyển đổi Cloud)**
 
 #### **Mục tiêu (Objectives)**
+
 - Chuyển đổi lên cloud platform
 - Tối ưu hóa database performance
 - Xây dựng scalable architecture
 - Đảm bảo data security và compliance
 
 #### **Câu hỏi chính cần trả lời (Key Questions to Answer)**
+
 - Làm sao để chuyển đổi lên cloud hiệu quả?
 - Database nào phù hợp nhất cho analytics?
 - Làm sao để scale hệ thống khi dữ liệu tăng?
@@ -1218,12 +1231,14 @@ backup_recovery = implement_backup_recovery()
 ### **5.1 Chiến lược Tăng trưởng (Growth Strategy)**
 
 #### **Mục tiêu (Objectives)**
+
 - Xây dựng chiến lược tăng trưởng dài hạn
 - Tối ưu hóa customer acquisition
 - Phát triển sản phẩm mới
 - Mở rộng thị trường
 
 #### **Câu hỏi chính cần trả lời (Key Questions to Answer)**
+
 - Làm sao để tăng trưởng doanh thu 20% mỗi năm?
 - Khách hàng mới nên tập trung vào đâu?
 - Sản phẩm nào nên phát triển thêm?
@@ -1287,12 +1302,14 @@ product_mix_optimization = optimize_product_mix()
 ### **5.2 Kế hoạch Triển khai (Implementation Plan)**
 
 #### **Mục tiêu (Objectives)**
+
 - Xây dựng roadmap triển khai chi tiết
 - Phân bổ nguồn lực hiệu quả
 - Đo lường success metrics
 - Quản lý rủi ro và thay đổi
 
 #### **Câu hỏi chính cần trả lời (Key Questions to Answer)**
+
 - Lộ trình triển khai như thế nào?
 - Cần nguồn lực gì cho từng giai đoạn?
 - Làm sao để đo lường thành công?
@@ -1392,6 +1409,7 @@ roi_calculation = calculate_roi()
 ## **TỔNG KẾT VÀ DELIVERABLES**
 
 ### **Deliverables Kỹ thuật (Technical Deliverables)**
+
 - ✅ **Giai đoạn 1**: EDA Reports, Data Quality Assessment, Business Insights
 - 🔄 **Giai đoạn 2**: Predictive Models, ML Pipelines, Recommendation Systems
 - 🔄 **Giai đoạn 3**: Interactive Dashboards, Automated Reports, Real-time Monitoring
@@ -1399,6 +1417,7 @@ roi_calculation = calculate_roi()
 - 🔄 **Giai đoạn 5**: Growth Strategy, Implementation Plan, Change Management
 
 ### **Deliverables Kinh doanh (Business Deliverables)**
+
 - ✅ **Giai đoạn 1**: Complete Business Picture, 4-year Trend Analysis, Strategic Insights
 - 🔄 **Giai đoạn 2**: Forecasting Capabilities, Customer Segmentation, Product Recommendations
 - 🔄 **Giai đoạn 3**: Real-time Business Intelligence, Automated Decision Support
@@ -1406,6 +1425,7 @@ roi_calculation = calculate_roi()
 - 🔄 **Giai đoạn 5**: Growth Strategy, Market Expansion, Competitive Advantage
 
 ### **Timeline Tổng thể (Overall Timeline)**
+
 - **Giai đoạn 1**: 8 tuần (EDA và Business Intelligence)
 - **Giai đoạn 2**: 12 tuần (Advanced Analytics và ML)
 - **Giai đoạn 3**: 8 tuần (BI Dashboards và Reporting)
@@ -1414,6 +1434,7 @@ roi_calculation = calculate_roi()
 - **Tổng cộng**: 44 tuần (~11 tháng)
 
 ### **Investment và ROI (Đầu tư và Lợi nhuận)**
+
 - **Tổng đầu tư**: X VND
 - **ROI dự kiến**: 300-500% trong 2 năm
 - **Payback period**: 8-12 tháng
