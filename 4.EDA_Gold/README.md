@@ -44,11 +44,11 @@
 
 ```python
 # 1. Data Quality Assessment (Đánh giá chất lượng dữ liệu)
-- Missing values analysis across all tables
-- Data consistency check between fact and dimension tables
-- Data type validation and conversion
-- Outlier identification in key metrics
-- Data completeness by time period
+- Phân tích giá trị thiếu trên tất cả các bảng (Missing values analysis across all tables)
+- Kiểm tra tính nhất quán dữ liệu giữa bảng fact và dimension (Data consistency check between fact and dimension tables)
+- Xác thực và chuyển đổi kiểu dữ liệu (Data type validation and conversion)
+- Phát hiện giá trị bất thường trong các chỉ số quan trọng (Outlier identification in key metrics)
+- Độ đầy đủ dữ liệu theo khoảng thời gian (Data completeness by time period)
 
 # 2. Dataset Structure (Cấu trúc Dataset)
 - Star Schema relationships mapping
