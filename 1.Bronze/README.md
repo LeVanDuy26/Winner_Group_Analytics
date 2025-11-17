@@ -6,7 +6,7 @@
 
 ## **TỔNG QUAN TẦNG BRONZE**
 
-### **Mục đích (Purpose)**
+### **Mục đích**
 
 Tầng Bronze là lớp dữ liệu thô (raw data) được thu thập trực tiếp từ nguồn Pancake POS API mà không qua bất kỳ xử lý hay biến đổi nào. Đây là nền tảng dữ liệu cho toàn bộ hệ thống analytics của Winner Group.
 
@@ -19,23 +19,9 @@ Tầng Bronze là lớp dữ liệu thô (raw data) được thu thập trực t
 
 ---
 
-## **CẤU TRÚC THƯ MỤC**
-
-```
-1.Broze/
-├── 0_TestPancakeAPI.ipynb     # Kiểm tra giới hạn API và tối ưu hóa
-├── Customers.ipynb            # Thu thập dữ liệu khách hàng
-├── Orders.ipynb               # Thu thập dữ liệu đơn hàng
-├── Products.ipynb             # Thu thập dữ liệu sản phẩm
-├── Shop.ipynb                 # Thu thập dữ liệu cửa hàng
-└── README.md                  # Tài liệu hướng dẫn
-```
-
----
-
 ## **DANH SÁCH NOTEBOOK VÀ CHỨC NĂNG**
 
-### **1. 0_TestPancakeAPI.ipynb - Kiểm tra API**
+### **1. TestPancakeAPI.ipynb - Kiểm tra API**
 
 #### **Mục đích**
 
@@ -49,14 +35,6 @@ Tầng Bronze là lớp dữ liệu thô (raw data) được thu thập trực t
 - Đo thời gian response và success rate
 - Xác định "ngưỡng vàng" cho page_size
 - Đảm bảo tính toàn vẹn dữ liệu
-
-#### **Kết quả mong đợi**
-
-- Page size tối ưu cho từng endpoint
-- Thời gian response trung bình
-- Success rate cho các request
-
----
 
 ### **2. Customers.ipynb - Thu thập Dữ liệu Khách hàng**
 
@@ -217,7 +195,7 @@ created_at, updated_at
 
 ---
 
-## 🔧 **CÔNG NGHỆ VÀ CÔNG CỤ SỬ DỤNG**
+## **CÔNG NGHỆ VÀ CÔNG CỤ SỬ DỤNG**
 
 ### **API Integration**
 

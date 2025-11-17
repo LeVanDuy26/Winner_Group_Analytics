@@ -21,30 +21,6 @@
 
 ## **THIẾT KẾ STAR SCHEMA**
 
-### **Sơ đồ Star Schema chính:**
-
-```
-                    ⭐ FACT_ORDERS ⭐
-                      (Trung tâm)
-                         │
-        ┌────────────────┼────────────────┐
-        │                │                │
-    dim_customers    dim_order_pages    dim_order_warehouses
-    (khách hàng)      (trang bán)        (kho hàng)
-        │                │                │
-        │                │                │
-    dim_order_shipping    dim_order_payments    dim_shops
-    (thông tin giao)      (thông tin thanh)      (cửa hàng)
-        │                │                │
-        │                │                │
-    ────┼────────────────┼────────────────┼────
-        │                │                │
-    fact_order_items ──── dim_products ───────┘
-    (chi tiết đơn)        (sản phẩm)
-```
-
-### **Chi tiết các mối quan hệ:**
-
 #### **FACT_ORDERS (Trung tâm):**
 
 - **Khóa chính**: `order_id`
