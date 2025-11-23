@@ -1,0 +1,3 @@
+CREATE USER 'powerbi'@'%' IDENTIFIED BY 'PowerBI123!';
+GRANT ALL PRIVILEGES ON *.* TO 'powerbi'@'%';
+FLUSH PRIVILEGES;
