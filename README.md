@@ -14,7 +14,7 @@
 
 ## Kiến trúc dữ liệu
 
-![Data Architecture](6.Docs/image/1.DataArchitecture.png)
+![Data Architecture](6.Document/image/1.DataArchitecture.png)
 
 ```mermaid
 flowchart LR
@@ -26,7 +26,7 @@ flowchart LR
 
 ### Star Schema (khái quát)
 
-![Star Schema](6.Docs/image/4.StarSchema.png)
+![Star Schema](6.Document/image/4.StarSchema.png)
 
 ## Cấu trúc thư mục
 
